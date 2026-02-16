@@ -1,0 +1,73 @@
+# Secrets and credentials - NEVER commit these!
+*.pem
+*.key
+*.env
+.env
+.env.*
+*_rsa
+*_rsa.pub
+.aws/credentials
+.aws/config
+
+# Terraform state files (contain sensitive data)
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Personal notes (if you want them private)
+NOTES.md
+scratch/
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Personal notes (if you want them private)
+NOTES.md
+scratch/
+EOF
