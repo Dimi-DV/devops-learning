@@ -1,4 +1,4 @@
-# Day 2 - Linux Process Management & SSH Troubleshooting
+# Day 2 — Linux Processes, Services, and Logs
 
 ## What I Learned
 
@@ -39,6 +39,47 @@ systemctl start/stop/restart/enable <service>
 - When SSH fails: access VM console directly (UTM)
 - Check if services are running before assuming network issues
 - Bridged networking = IP can change on reboot
+
+
+### Processes
+- Every running program is a process with a PID
+- `ps aux` shows all processes — key columns: PID, %CPU, %MEM, COMMAND
+- `htop` gives an interactive view (installed with `sudo apt install htop`)
+- `kill <PID>` sends SIGTERM (graceful), `kill -9 <PID>` sends SIGKILL (force)
+- Background processes: `&` to run in background, `jobs` to list, `fg`/`bg` to manage
+- `Ctrl+Z` suspends a foreground process
+
+### systemd and Services
+- systemd is PID 1 — the init system that manages all services on Ubuntu
+- `systemctl status <service>` — check if running, see PID, read recent logs
+- `systemctl start/stop/restart <service>` — control services
+- `systemctl enable/disable <service>` — control boot behavior
+- `daemon-reload` required after creating or editing unit files
+
+### Unit Files
+- Custom services go in `/etc/systemd/system/`
+- Three sections: [Unit] (metadata), [Service] (how to run), [Install] (boot behavior)
+- Key fields: ExecStart, Restart, User, WorkingDirectory, Type=simple
+- `StandardOutput=journal` routes print() to journalctl
+
+### journalctl (Log Reading)
+- `journalctl -u <service>` — logs for a specific service
+- `journalctl -u <service> -f` — follow in real-time
+- `journalctl -n 50` — last 50 lines
+- `journalctl -b` — logs from current boot
+
+## Hands-On Work
+- Built `timestamp_logger.py` — Python script that writes timestamps to `/tmp/timestamp_service.log` every 10 seconds
+- Created a systemd unit file to run it as a managed service
+- Debugged a crash-loop issue — service was starting and immediately failing, used `journalctl` to diagnose
+- Tested `Restart=on-failure` behavior — watched systemd auto-restart after killing the process
+- Verified service survived reboot with `systemctl enable`
+
+## Key Takeaways
+- `systemctl status` + `journalctl` are the first tools you reach for when a service misbehaves
+- Always test scripts manually before wrapping them in a service
+- Typos in filenames cause "file not found" errors that look like bigger problems (timestamp_service vs timestamp_services)
+- Unit file paths must be absolute, and User field must match an actual system user
 
 ---
 Date: 2025-02-18
