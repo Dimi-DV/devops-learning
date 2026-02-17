@@ -129,6 +129,33 @@ systemctl start/stop/restart/enable <service>
 - Scheduled with cron to run every 5 minutes
 - Verified multiple snapshots appearing in log file
 
+## Python for Sysadmin
+
+### subprocess Module
+- `subprocess.run(["cmd", "arg"], capture_output=True, text=True)` — run any bash command
+- `result.stdout` — command output, `result.returncode` — 0 means success
+- `shell=True` needed for pipes (`|`) and redirects (`>`)
+- Always check returncode before trusting output
+- Use `timeout=N` to prevent hanging commands
+
+### os Module
+- `os.getcwd()`, `os.listdir()`, `os.path.exists()`, `os.path.isfile()`
+- `os.makedirs(path, exist_ok=True)` — like mkdir -p
+- `os.walk()` — recursively traverse directories
+- `os.path.join()` — build paths safely
+- `os.environ.get("VAR")` — read environment variables
+
+### Log Parsing
+- `with open(file) as f:` — always use context manager
+- `re.search(pattern, string)` — regex for extracting data
+- `collections.Counter` — count occurrences, get `.most_common()`
+
+### System Health Check Script
+- Built `system_health.py`: checks disk, memory, services, outputs JSON
+- Each check is a separate function returning data (not printing)
+- Pattern: collect data → assemble report → output JSON
+- This pattern scales to real monitoring: same data could go to CloudWatch/Slack/PagerDuty
+
 ---
 Date: 2025-02-18
 Status: ✅ Completed Day 2 exercises
