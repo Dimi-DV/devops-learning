@@ -81,6 +81,54 @@ systemctl start/stop/restart/enable <service>
 - Typos in filenames cause "file not found" errors that look like bigger problems (timestamp_service vs timestamp_services)
 - Unit file paths must be absolute, and User field must match an actual system user
 
+## Package Management (apt)
+
+### Core Commands
+- `sudo apt update` — refresh package index (always run first)
+- `sudo apt upgrade -y` — install available upgrades
+- `sudo apt install <package>` — install new packages
+- `sudo apt remove <package>` — remove (keeps config)
+- `sudo apt purge <package>` — remove everything including config
+- `sudo apt autoremove` — clean up orphaned dependencies
+- `apt search <name>` — find packages
+- `apt list --installed` — see what's installed
+
+### Where Packages Come From
+- `/etc/apt/sources.list` — main repository list
+- `/etc/apt/sources.list.d/` — additional repos (PPAs, third-party)
+- Components: main, restricted, universe, multiverse
+- PPAs: third-party repos via `add-apt-repository`
+
+### Useful Tools Installed
+- `tree` — visual directory structure
+- `jq` — JSON parser (critical for AWS CLI output)
+- `curl` — HTTP requests
+- `nmap` — port scanning
+
+## Cron (Scheduled Tasks)
+
+### Syntax
+```
+* * * * * command
+│ │ │ │ └─ day of week (0-6)
+│ │ │ └─── month (1-12)
+│ │ └───── day of month (1-31)
+│ └─────── hour (0-23)
+└───────── minute (0-59)
+```
+
+### Key Commands
+- `crontab -e` — edit your cron jobs
+- `crontab -l` — list current jobs
+- `*/5 * * * *` — every 5 minutes
+- Always use absolute paths in cron jobs
+- Debug with `grep CRON /var/log/syslog`
+
+### Hands-On
+- Created `system_snapshot.sh` — logs disk + memory usage
+- Scheduled with cron to run every 5 minutes
+- Verified multiple snapshots appearing in log file
+
 ---
 Date: 2025-02-18
 Status: ✅ Completed Day 2 exercises
