@@ -1,0 +1,42 @@
+=== ACCESS LOG REPORT ===
+Generated: Fri Feb 20 01:39:23 AM UTC 2026
+
+--- Total Requests ---
+1000
+
+--- Unique IPs ---
+33
+
+--- Top 10 IPs by Request Count ---
+    171 192.168.1.105
+    146 10.0.2.34
+    123 172.16.0.89
+     55 203.0.113.45
+     37 198.51.100.22
+     36 91.198.174.192
+     36 185.199.108.133
+     36 104.26.10.78
+     33 45.33.32.156
+     24 43.155.77.200
+
+--- Status Code Distribution ---
+    708 200
+     84 404
+     69 301
+     60 304
+     39 403
+     23 500
+      9 502
+      8 503
+
+--- Top 10 URLs ---
+     35 /favicon.ico
+     28 /assets/js/vendor.js
+     27 /assets/fonts/inter.woff2
+     27 /api/v1/orders
+     26 /assets/css/main.css
+     25 /pricing
+     25 /docs/api-reference
+     23 /api/v1/users
+     22 /docs/getting-started
+     22 /assets/images/logo.png
