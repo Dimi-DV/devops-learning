@@ -1,0 +1,35 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {"Sid": "ECRAuthenticate",
+        "Effect": "Allow",
+        "Action": [
+            "ecr:GetAuthorizationToken"
+        ],
+        "Resource": "*"
+        },
+        {
+        "Sid": "ECRImagePull",
+        "Effect": "Allow",
+        "Action": [
+            "ecr:BatchCheckLayerAvailability",
+            "ecr:BatchGetImage",
+            "ecr:GetDownloadUrlForLayer"
+        ],
+        "Resource": "arn:aws:ecr:${aws:Region}:${aws:AccountId}:repository/*"
+    },
+        
+        {"Sid": "CloudWatchLogs",
+        "Effect": "Allow",
+        "Action": [
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents"
+        ],
+        "Resource": [
+            "arn:aws:logs:${aws:Region}:${aws:AccountId}:log-group:/app/my-service",
+            "arn:aws:logs:${aws:Region}:${aws:AccountId}:log-group:/app/my-service:*"
+        ]
+    }
+    ]
+}

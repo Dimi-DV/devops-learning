@@ -1,0 +1,21 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {"Sid": "MFAAuthenticationCheck",
+        "Effect": "Deny",
+        "NotAction": [
+            "iam:GetUser",
+            "iam:ListMFADevices",
+            "iam:CreateVirtualMFADevice",
+            "iam:EnableMFADevice",
+            "iam:ResyncMFADevice",
+            "iam:DeactivateMFADevice",
+            "iam:DeleteVirtualMFADevice"
+        ],
+        "Resource": "*",
+        "Condition": {"Bool": {
+            "aws:MultiFactorAuthPresent": "false"}
+            }
+        }
+    ]
+}
