@@ -71,3 +71,6 @@ temp/
 NOTES.md
 scratch/
 EOF
+*.tfstate
+*.tfstate.backup
+.terraform/
