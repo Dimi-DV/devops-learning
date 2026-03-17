@@ -1,0 +1,31 @@
+terraform {
+    required_providers {
+        aws = {
+            source = "hashicorp/aws"
+            version = "~> 5.0"
+        }
+    }
+    required_version = ">= 1.0"
+}
+
+provider "aws" {
+    region = "us-east-1"
+}
+
+resource "aws_s3_bucket" "first_bucket" {
+    bucket = "dimitrije-tf-basics-2026"
+
+    tags = {
+        Environment = "dev"
+        Project     = "terraform-basics"
+        ManagedBy   = "terraform"
+    }
+}
+
+resource "aws_s3_bucket_versioning" "first_bucket_versioning" {
+  bucket = aws_s3_bucket.first_bucket.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
