@@ -18,16 +18,6 @@ variable "vpc_cidr" {
   type        = string
 }
 
-variable "public_subnet_cidrs" {
-  description = "CIDR blocks for public subnets, one per AZ"
-  type        = list(string)
-}
-
-variable "private_subnet_cidrs" {
-  description = "CIDR blocks for private subnets, one per AZ"
-  type        = list(string)
-}
-
 variable "availability_zones" {
   description = "Availability zones for subnet placement"
   type        = list(string)
@@ -36,4 +26,10 @@ variable "availability_zones" {
 variable "allowed_ssh_cidrs" {
   description = "CIDR blocks allowed to SSH into the web security group"
   type        = list(string)
+}
+
+variable "create_nat" {
+  description = "Whether to create a NAT Gateway for private subnet internet egress. Set false to save ~$32/month in non-prod environments."
+  type        = bool
+  default     = true
 }
