@@ -1,0 +1,86 @@
+1. variables are named values that we reference in code
+they can be numbers, strings, lists
+locals not much experience with but they reduce repetition?
+outputs are primarily printed values of resources that we created/started such as ids of services, which can be referenced in terraform if we want to target specific services using their ids
+
+2.
+variable "subnet_cidrs" {
+    description = "subnet cidrs"
+    type = list(string)
+    default = ["10.0.1.0/24", "10.0.2.0/24"]
+}
+
+3. the .main.id fetches only the ID of the service in this case of the vpc
+data. is more broad, it can fetch whatever we specify that we want from a service, in this case we are asking for the account id
+
+4. the name tag will read "web-prod", not quite sure what you meant by what the expression is called but in this case we are referencing an environment variable we have defined as prod elsewhere
+the syntax used with ${} is referencing that variable
+
+5. terraform plan simulates the changes that will happen if we do apply them whereas apply creates the infrastructure that we built 
+you can apply without planning but its not wise as plan gives a very comprehensive account of all the changes that are about to happen both services added and removed if we were to apply the infra we made. 
+under the hood plan compares the terraform code with the existing infrastructure on AWS and show the differences, Apply directly applies those changes to aws and
+adds or removes in accordance with the code we are applying
+
+6. the most important thing it stores is the key, it tracks the state and tf lock rules. Its crucial that its properly secured because bad actors can access our code with it
+its essentially the backend of our code
+
+7. i think the main problem of not putting tf locks in a dynamo table is multiple people having access to the lock file and being able to simultaneously make changes without informing the other
+both peoples' changes would go through depending on who send the request later his would go through, with dynamo tabled tflock this doesnt happen
+
+8. tf plan would show a + next to the ec2 to signify that it would create it because its not there when comparing tf code to the actual aws state
+
+9. not sure, some sort of migrate?
+
+10. yes it removes the instance, maybe you would use it if you urgently need to remove an instance and dont have time to make changes to the code and the plan/apply them. surely just for quick fixes
+
+11. the three main interfaces are main.tf, outputs.tf and variables.tf
+
+12. 
+module "vpc" {
+  source = "../../project/vpc"
+  cidr_block = "10.0.0.0/16"
+"
+13. not sure
+
+14. organizational clarity #1, there is not limitation within HCL that prevents us from doing this but its best practice to separate code into files
+and number 2 is modularization with multiple files makes fixes easier
+
+15. the local path works when our entire infra is on the local machine, but if we lose the machine we risk losing the module, tf registry is useful to mitigate this as its online
+for smaller projects local is fine but for big production you want to use the registry
+
+16. count iterates a fixed amount of times that we specify, its useful if we want to for example create X resources. for each iterates over a 
+number of resources or values or whatever we specify. Its more useful when the number of iterations we need is variable and not fixed, for example with our AZ iterations, different teams might have different AZ count needs which would lead to a different amount of iterations. 
+
+17. cant do this, didnt fully memorize it
+
+18. the 8 is us telling the code how many bits we want to allocate from the ip address we provided for the subnet, so the 8 effectively turns the 10.0.0.0/16 into a 10.0.0.0/24, the 1 tells the code
+where the addresses will start in this subnet. in this case itd be 10.0.0.1/24 and then every iteration would add 1 to the address pool
+
+19. we use dynamic when the number of elements is not fixed, for example when we iterate over ingress or egress blocks 
+
+20. cant do it
+
+21. so that there is no mismatch if HCL gets updated and other teams update but our team doesnt. You pin a version with "~> 5.0". If the version isnt locked this can break infra
+
+22. lifecycle tells terraform how we want it to create/delete a certain resource. We can use an argument that prevenets a resource from being destroyed when calling terraform destroy usually used for static s3 buckets or we can use create before destroy for instances to assure maximum uptime of a web instance for example
+
+23. lifecycle argument will prevent the instance from being destroyed, i mentioned above why it is useful
+
+24. 
+1. terraform.tfvars <- would put secrets here combined with a gitignore of the file
+2. -var flag in the command line 
+3. *auto tfvars (?) not sure what this doesnt
+4. environment variabkes
+5. and lastly default values
+
+25. tfstate, tfvars, any sort of key references or .key file. We dont want sensitive information being uploaded to our github, its all about minimizing the surface area of possible attack vectors
+
+26. ALB tier is first and the only public one all the other ones are private. NAT gateway goes into ec2's so that ec2 instances can quickly respond to the internet (but not receive traffic directly from it which is what the alb is for)
+
+27. its a horrible idea letting a RDS database be easily attacked by putting it in a public subnet, the best practice would be to hide it behind a bastion host that has predetermined allow list of ips or IAM users that can access it
+
+28. im very torn on this one, im leaning more toward that it will since the main thing separating a public from a private instance is its access to a public ip address, the reason im torn is because SG rules might influence how the private instance accesses the web
+
+29. IGW gives instances access to both outgoing and incoming internet traffic, basically access to the internet, while a NAT gateway only allowes outbound traffic.
+
+30. the easiest fix to this would be to introduce a failsafe AZ, the standard is 2 AZ exactly because of the problem posed by this question. 
