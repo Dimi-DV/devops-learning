@@ -9,7 +9,6 @@
 .aws/credentials
 .aws/config
 
-# Terraform state files (contain sensitive data)
 *.tfstate
 *.tfstate.*
 .terraform/
@@ -66,7 +65,6 @@ temp/
 *.tmp
 
 # Personal notes (if you want them private)
-NOTES.md
 scratch/
 EOF
 *.tfstate
