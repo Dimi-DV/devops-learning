@@ -1,0 +1,22 @@
+{
+  "cluster": "healthy-app-cluster",
+  "serviceName": "healthy-app-service",
+  "taskDefinition": "healthy-app",
+  "desiredCount": 2,
+  "launchType": "FARGATE",
+  "networkConfiguration": {
+    "awsvpcConfiguration": {
+      "subnets": ["subnet-080d03e2937909d51","subnet-0a13403cd5ad7dbd3"],
+      "securityGroups": ["sg-0447b759b1c418c20"],
+      "assignPublicIp": "DISABLED"
+    }
+  },
+  "loadBalancers": [
+    {
+      "targetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:042729137214:targetgroup/healthy-app-tg/9caeccf9e17207a9",
+      "containerName": "web",
+      "containerPort": 5000
+    }
+  ],
+  "healthCheckGracePeriodSeconds": 90
+}
