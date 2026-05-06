@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - week4/day24
+      - main
+    paths:
+      - 'week4/day23/healthy-app/**'
+      - '.github/workflows/ci.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'week4/day23/healthy-app/**'
+      - '.github/workflows/ci.yml'
+
+defaults:
+  run:
+    working-directory: week4/day23/healthy-app
+
+jobs:
+  lint:
+    name: Lint (flake8)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run flake8
+        run: flake8 app.py tests/
+
+  test:
+    name: Test (pytest)
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run pytest
+        run: pytest tests/ -v
+
+  build:
+    name: Build Docker image
+    needs: test
+    runs-on: ubuntu-latest
+    # The build action uses absolute paths, so we override the default working-directory
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image (no push yet)
+        uses: docker/build-push-action@v5
+        with:
+          context: ./week4/day23/healthy-app
+          push: false
+          tags: healthy-app:ci-${{ github.sha }}
