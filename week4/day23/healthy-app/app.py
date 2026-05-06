@@ -5,6 +5,7 @@ import socket
 
 app = Flask(__name__)
 
+
 def get_db_connection():
     return psycopg2.connect(
         host=os.environ['DB_HOST'],
@@ -13,9 +14,11 @@ def get_db_connection():
         password=os.environ['DB_PASSWORD']
     )
 
+
 @app.route('/')
 def hello():
     return f"Hello from container {socket.gethostname()}\n"
+
 
 @app.route('/init')
 def init_db():
@@ -32,6 +35,7 @@ def init_db():
     conn.close()
     return "Table created\n"
 
+
 @app.route('/visit')
 def visit():
     conn = get_db_connection()
@@ -43,6 +47,7 @@ def visit():
     conn.close()
     return jsonify({"id": row[0], "visited_at": row[1].isoformat()})
 
+
 @app.route('/visits')
 def list_visits():
     conn = get_db_connection()
@@ -52,6 +57,7 @@ def list_visits():
     cur.close()
     conn.close()
     return jsonify([{"id": r[0], "visited_at": r[1].isoformat()} for r in rows])
+
 
 @app.route('/health')
 def health():
@@ -65,6 +71,6 @@ def health():
     except Exception as e:
         return jsonify({"status": "unhealthy", "error": str(e)}), 503
 
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
-
