@@ -61,7 +61,7 @@ jobs:
       - name: Run pytest
         run: pytest tests/ -v
 
-build-and-push:
+  build-and-push:
     name: Build and push to ECR
     needs: test
     runs-on: ubuntu-latest
@@ -92,4 +92,4 @@ build-and-push:
           tags: |
             ${{ steps.ecr-login.outputs.registry }}/healthy-app:${{ github.sha }}
             ${{ steps.ecr-login.outputs.registry }}/healthy-app:latest
-            
+
