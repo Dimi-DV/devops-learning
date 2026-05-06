@@ -16,8 +16,5 @@ jobs:
       - name: Show Python version
         run: python3 --version
 
-      - name: This will fail
-        run: cat /this/file/does/not/exist
-
       - name: Show working directory
         run: pwd && ls -la
