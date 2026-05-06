@@ -9,12 +9,15 @@ on:
 jobs:
   greet:
     runs-on: ubuntu-latest
-    steps
+    steps:
       - name: Say hello
         run: echo "Hello from CI/CD"
 
       - name: Show Python version
         run: python3 --version
+
+      - name: This will fail
+        run: cat /this/file/does/not/exist
 
       - name: Show working directory
         run: pwd && ls -la
