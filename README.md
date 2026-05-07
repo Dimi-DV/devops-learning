@@ -1,5 +1,7 @@
 # DevOps Learning Journey
 
+[![CI](https://github.com/Dimi-DV/devops-learning/actions/workflows/ci.yml/badge.svg)](https://github.com/Dimi-DV/devops-learning/actions/workflows/ci.yml)
+
 42-day intensive DevOps/Cloud Engineering bootcamp
 
 ## Structure
