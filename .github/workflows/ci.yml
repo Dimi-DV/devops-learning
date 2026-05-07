@@ -68,6 +68,7 @@ jobs:
   build-and-push:
     name: Build and push to ECR
     needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
