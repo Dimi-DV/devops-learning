@@ -9,8 +9,10 @@
 .aws/credentials
 .aws/config
 
+# Terraform
 *.tfstate
 *.tfstate.*
+*.tfstate.backup
 .terraform/
 
 # Python
@@ -43,31 +45,5 @@ tmp/
 temp/
 *.tmp
 
-# Personal notes
+# Personal notes (kept out of version control)
 scratch/
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Logs
-*.log
-logs/
-
-# Temporary files
-tmp/
-temp/
-*.tmp
-
-# Personal notes (if you want them private)
-scratch/
-EOF
-*.tfstate
-*.tfstate.backup
-.terraform/
