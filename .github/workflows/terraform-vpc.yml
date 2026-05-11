@@ -24,7 +24,7 @@ defaults:
 env:
   TF_VERSION: "1.14.7"
   AWS_REGION: us-east-1
-  ROLE_ARN: arn:aws:iam::042729137214:role/github-actions-terraform-vpc
+  ROLE_ARN: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/github-actions-terraform-vpc
 
 jobs:
   fmt-and-validate:
