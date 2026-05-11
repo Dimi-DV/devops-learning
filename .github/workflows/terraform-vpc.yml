@@ -2,14 +2,16 @@ name: Terraform VPC
 
 on:
   push:
-    branches: [main, week4/day25]
+    branches: [main]
     paths:
-      - 'week3/day15/aws-vpc-terraform/**'
+      - 'week3/day15/aws-vpc-terraform/modules/vpc/**'
+      - 'week3/day15/aws-vpc-terraform/environments/dev/**'
       - '.github/workflows/terraform-vpc.yml'
   pull_request:
     branches: [main]
     paths:
-      - 'week3/day15/aws-vpc-terraform/**'
+      - 'week3/day15/aws-vpc-terraform/modules/vpc/**'
+      - 'week3/day15/aws-vpc-terraform/environments/dev/**'
       - '.github/workflows/terraform-vpc.yml'
 
 permissions:
@@ -19,7 +21,7 @@ permissions:
 
 defaults:
   run:
-    working-directory: week3/day15/aws-vpc-terraform
+    working-directory: week3/day15/aws-vpc-terraform/environments/dev
 
 env:
   TF_VERSION: "1.14.7"
@@ -44,7 +46,10 @@ jobs:
           role-to-assume: ${{ env.ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
 
+      # Recursive fmt check from the project root catches the module too,
+      # not just the environment caller.
       - name: Terraform Format Check
+        working-directory: week3/day15/aws-vpc-terraform
         run: terraform fmt -check -recursive
 
       - name: Terraform Init
@@ -84,7 +89,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const output = `### Terraform Plan
+            const output = `### Terraform Plan (environments/dev)
             \`\`\`
             ${{ steps.plan.outputs.stdout }}
             \`\`\`
