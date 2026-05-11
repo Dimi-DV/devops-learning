@@ -21,17 +21,23 @@
       "Resource": "*"
     },
     {
-      "Sid": "TerraformStateRead",
+      "Sid": "TerraformStateBucket",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket"
+      ],
+      "Resource": "arn:aws:s3:::dimitrije-tf-state-2026"
+    },
+    {
+      "Sid": "TerraformStateObjects",
       "Effect": "Allow",
       "Action": [
         "s3:GetObject",
         "s3:PutObject",
-        "s3:DeleteObject",
-        "s3:ListBucket"
+        "s3:DeleteObject"
       ],
       "Resource": [
-        "arn:aws:s3:::dimitrije-tf-state-2026",
-        "arn:aws:s3:::dimitrije-tf-state-2026/vpc/*"
+        "arn:aws:s3:::dimitrije-tf-state-2026/envs/*"
       ]
     },
     {
