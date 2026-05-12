@@ -1,1 +1,1 @@
-alert_email = ""
+alert_email = "thedimi11@gmail.com"
